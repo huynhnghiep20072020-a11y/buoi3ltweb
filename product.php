@@ -38,11 +38,6 @@ require __DIR__ . '/includes/header.php';
         <p class="price">Giá: <strong><?= format_price($product['price']) ?></strong></p>
         <p><?= nl2br(e($product['description'])) ?></p>
 
-        <p style="margin: 15px 0;">
-            <button type="button" class="btn btn-accent add-to-cart"
-                    data-id="<?= $product['id'] ?>">Thêm vào giỏ</button>
-        </p>
-
         <h3>Thông tin sản phẩm</h3>
         <table>
             <tbody>
@@ -60,6 +55,14 @@ require __DIR__ . '/includes/header.php';
                 </tr>
             </tbody>
         </table>
+
+        <?php if ($product['stock'] > 0): ?>
+            <form action="<?= url('cart-add.php') ?>" method="post" class="cart-actions">
+                <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                <input type="number" name="quantity" value="1" min="1" max="<?= $product['stock'] ?>">
+                <button type="submit" class="btn btn-accent">Thêm vào giỏ</button>
+            </form>
+        <?php endif; ?>
 
         <p><a href="<?= url('index.php') ?>">&laquo; Quay lại danh sách sản phẩm</a></p>
     </div>
@@ -81,8 +84,10 @@ $relatedProducts = $stmtRelated->fetchAll();
             <h3><?= e($relProduct['name']) ?></h3>
             <p class="price"><?= format_price($relProduct['price']) ?></p>
             <a href="<?= url('product.php?id=' . $relProduct['id']) ?>" class="btn">Xem chi tiết</a>
-            <button type="button" class="btn btn-accent add-to-cart"
-                    data-id="<?= $relProduct['id'] ?>">Thêm vào giỏ</button>
+            <form action="<?= url('cart-add.php') ?>" method="post" class="inline-form">
+                <input type="hidden" name="product_id" value="<?= $relProduct['id'] ?>">
+                <button type="submit" class="btn btn-accent">Thêm vào giỏ</button>
+            </form>
         </article>
         <?php endforeach; ?>
     </div>

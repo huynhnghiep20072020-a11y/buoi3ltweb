@@ -5,50 +5,6 @@ function formatPrice(amount) {
     return amount.toLocaleString("vi-VN") + " đ";
 }
 
-// ===== 2. Giỏ hàng lưu tạm trong trình duyệt =====
-// Giỏ hàng là một đối tượng: { "mã sản phẩm": số lượng }
-// Ví dụ: { "1": 2, "4": 1 } nghĩa là 2 sản phẩm mã 1 và 1 sản phẩm mã 4.
-
-const CART_KEY = "minishop_cart";
-
-function getCart() {
-    const data = localStorage.getItem(CART_KEY);
-    return data ? JSON.parse(data) : {};
-}
-
-function saveCart(cart) {
-    localStorage.setItem(CART_KEY, JSON.stringify(cart));
-}
-
-function updateCartCount() {
-    const cart = getCart();
-    let count = 0;
-    for (const id in cart) {
-        count += cart[id];
-    }
-    const badge = document.querySelector("#cart-count");
-    if (badge) {
-        badge.textContent = count;
-    }
-}
-
-function addToCart(id) {
-    const cart = getCart();
-    cart[id] = (cart[id] || 0) + 1;
-    saveCart(cart);
-    updateCartCount();
-}
-
-// Gắn sự kiện click cho mọi nút "Thêm vào giỏ"
-document.querySelectorAll(".add-to-cart").forEach(function (button) {
-    button.addEventListener("click", function () {
-        addToCart(button.dataset.id);
-    });
-});
-
-// Hiện số lượng ngay khi trang vừa mở
-updateCartCount();
-
 // ===== 3. Trang giỏ hàng: tự tính thành tiền và tổng cộng =====
 function updateCartTotals(table) {
     let total = 0;

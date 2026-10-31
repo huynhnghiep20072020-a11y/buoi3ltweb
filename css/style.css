@@ -351,3 +351,51 @@ tbody tr:nth-child(even) {
     background-color: var(--primary);
     color: var(--white);
 }
+
+/* ===== 12. Thông báo ===== */
+.alert {
+    margin: 0 0 16px;
+    padding: 12px 16px;
+    border: 1px solid;
+    border-radius: 4px;
+}
+
+.alert-success {
+    border-color: #2e7d32;
+    background-color: #eaf6ec;
+    color: #1b5e20;
+}
+
+.alert-error {
+    border-color: #c0392b;
+    background-color: #fdecea;
+    color: #922b21;
+}
+
+/* ===== 14. Giỏ hàng và đặt hàng ===== */
+.inline-form {
+    display: inline;
+}
+
+.btn-danger {
+    background-color: var(--danger);
+}
+
+.btn-danger:hover {
+    background-color: #992d22;
+}
+
+.cart-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+.cart-actions input[type="number"] {
+    width: 70px;
+    padding: 8px 6px;
+}
+
+

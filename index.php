@@ -109,8 +109,10 @@ require __DIR__ . '/includes/header.php';
             <h3><?= e($product['name']) ?></h3>
             <p class="price"><?= format_price($product['price']) ?></p>
             <a href="<?= url('product.php?id=' . $product['id']) ?>" class="btn">Xem chi tiết</a>
-            <button type="button" class="btn btn-accent add-to-cart"
-                    data-id="<?= $product['id'] ?>">Thêm vào giỏ</button>
+            <form action="<?= url('cart-add.php') ?>" method="post" class="inline-form">
+                <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
+                <button type="submit" class="btn btn-accent">Thêm vào giỏ</button>
+            </form>
         </article>
         <?php endforeach; ?>
     </div>
