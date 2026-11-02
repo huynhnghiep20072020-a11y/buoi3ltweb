@@ -49,6 +49,7 @@ require __DIR__ . '/includes/header.php';
 <h2>Thông tin tài khoản</h2>
 
 <form action="<?= url('profile.php') ?>" method="post" class="form">
+    <?= csrf_field() ?>
     <p>
         <label>Email đăng nhập</label><br>
         <input type="email" value="<?= e($user['email']) ?>" disabled style="background-color: #eee;">

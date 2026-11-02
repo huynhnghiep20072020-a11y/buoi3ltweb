@@ -62,6 +62,16 @@ CREATE TABLE order_items (
     FOREIGN KEY (product_id) REFERENCES products (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- 6. Bảng liên hệ
+CREATE TABLE IF NOT EXISTS contacts (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    fullname VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    subject VARCHAR(200) NOT NULL,
+    message TEXT NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- Dữ liệu mẫu bảng categories
 INSERT INTO categories (id, name) VALUES
 (1, 'Chuột và bàn phím'),
@@ -77,3 +87,23 @@ INSERT INTO products (category_id, name, price, description, image, stock) VALUE
 (2, 'Webcam Full HD W5', 520000, 'Webcam 1080p, tự lấy nét, tích hợp micro kép, kẹp được trên màn hình.', 'images/sp05.jpg', 8),
 (3, 'Đế tản nhiệt laptop D6', 320000, 'Đế tản nhiệt hai quạt, điều chỉnh được độ nghiêng, dùng cho laptop đến 15.6 inch.', 'images/sp06.jpg', 12),
 (1, 'Lót chuột gaming L7', 90000, 'Lót chuột cỡ lớn bo viền chống trượt, bề mặt vải êm ái tối ưu cho chuột quang và laser.', 'images/sp01.jpg', 30);
+
+-- Dữ liệu mẫu bảng users (mật khẩu đều là 123456)
+INSERT INTO users (id, fullname, email, password_hash, phone, address, role) VALUES
+(1, 'Quản trị viên', 'admin@example.com', '$2y$10$cDZoyVdzhDzPey1rG/Yu1eOj1olpZyYw7gvqDqEU9k6TBsWhHcMqK', '0900000001', '123 Đường Số 1, TP. Biên Hòa, Đồng Nai', 'admin'),
+(2, 'Nguyễn Văn An', 'an@example.com', '$2y$10$cDZoyVdzhDzPey1rG/Yu1eOj1olpZyYw7gvqDqEU9k6TBsWhHcMqK', '0900000000', '123 Đường Số 1, TP. Biên Hòa, Đồng Nai', 'admin'),
+(3, 'Trần Thị Bình', 'khach@example.com', '$2y$10$cDZoyVdzhDzPey1rG/Yu1eOj1olpZyYw7gvqDqEU9k6TBsWhHcMqK', '0911222333', '456 Đường CMT8, Quận 3, TP. Hồ Chí Minh', 'customer');
+
+-- Dữ liệu mẫu bảng orders
+INSERT INTO orders (id, user_id, fullname, phone, address, note, total, status) VALUES
+(1, 2, 'Nguyễn Văn An', '0900000000', '123 Đường Số 1, TP. Biên Hòa, Đồng Nai', 'Giao trong giờ hành chính', 400000, 'completed'),
+(2, 3, 'Trần Thị Bình', '0911222333', '456 Đường CMT8, Quận 3, TP. Hồ Chí Minh', 'Giao buổi sáng', 790000, 'shipping'),
+(3, 3, 'Trần Thị Bình', '0911222333', '456 Đường CMT8, Quận 3, TP. Hồ Chí Minh', '', 250000, 'pending');
+
+-- Dữ liệu mẫu bảng order_items
+INSERT INTO order_items (order_id, product_id, product_name, price, quantity) VALUES
+(1, 1, 'Chuột không dây M1', 250000, 1),
+(1, 4, 'USB 64GB U4', 150000, 1),
+(2, 2, 'Bàn phím cơ K2', 790000, 1),
+(3, 1, 'Chuột không dây M1', 250000, 1);
+

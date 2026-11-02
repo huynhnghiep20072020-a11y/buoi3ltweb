@@ -124,6 +124,7 @@ require __DIR__ . '/includes/header.php';
 <?php if ($order['status'] === 'pending'): ?>
     <form action="<?= url('order-detail.php?id=' . $order['id']) ?>" method="post"
           onsubmit="return confirm('Bạn có chắc chắn muốn hủy đơn hàng này?');" style="margin: 16px 0;">
+        <?= csrf_field() ?>
         <input type="hidden" name="action" value="cancel">
         <button type="submit" class="btn btn-danger">Hủy đơn</button>
     </form>

@@ -15,3 +15,8 @@ session_start();
 require_once __DIR__ . '/functions.php';
 require_once __DIR__ . '/../config/db.php';
 
+// Mọi yêu cầu POST đều phải kèm mã CSRF hợp lệ
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    csrf_verify();
+}
+

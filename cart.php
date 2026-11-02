@@ -12,6 +12,7 @@ require __DIR__ . '/includes/header.php';
     <p>Giỏ hàng đang trống. <a href="<?= url('index.php') ?>">Xem sản phẩm</a></p>
 <?php else: ?>
     <form action="<?= url('cart-update.php') ?>" method="post">
+        <?= csrf_field() ?>
         <table class="cart-table">
             <thead>
                 <tr>
@@ -57,6 +58,7 @@ require __DIR__ . '/includes/header.php';
 
     <!-- Form riêng cho các nút "Xóa" từng dòng (nối với nút qua thuộc tính form) -->
     <form id="remove-form" action="<?= url('cart-update.php') ?>" method="post">
+        <?= csrf_field() ?>
     </form>
 <?php endif; ?>
 <?php require __DIR__ . '/includes/footer.php'; ?>

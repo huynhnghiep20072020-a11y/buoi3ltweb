@@ -68,6 +68,7 @@ require __DIR__ . '/includes/header.php';
 <h2>Liên hệ</h2>
 
 <form action="<?= url('contact.php') ?>" method="post" class="form">
+    <?= csrf_field() ?>
     <p>
         <label for="fullname">Họ và tên</label><br>
         <input type="text" id="fullname" name="fullname" value="<?= e($fullname) ?>" required>

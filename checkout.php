@@ -138,6 +138,7 @@ require __DIR__ . '/includes/header.php';
 
 <h3>Thông tin nhận hàng</h3>
 <form action="<?= url('checkout.php') ?>" method="post" class="form">
+    <?= csrf_field() ?>
     <p>
         <label for="fullname">Người nhận</label><br>
         <input type="text" id="fullname" name="fullname" value="<?= e($fullname) ?>" required>

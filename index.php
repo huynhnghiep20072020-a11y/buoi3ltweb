@@ -110,6 +110,7 @@ require __DIR__ . '/includes/header.php';
             <p class="price"><?= format_price($product['price']) ?></p>
             <a href="<?= url('product.php?id=' . $product['id']) ?>" class="btn">Xem chi tiết</a>
             <form action="<?= url('cart-add.php') ?>" method="post" class="inline-form">
+                <?= csrf_field() ?>
                 <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
                 <button type="submit" class="btn btn-accent">Thêm vào giỏ</button>
             </form>

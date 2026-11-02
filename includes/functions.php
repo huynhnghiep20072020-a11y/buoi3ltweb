@@ -108,7 +108,6 @@ function order_statuses()
 {
     return [
         'pending' => 'Chờ xử lý',
-        'processing' => 'Đang xử lý',
         'shipping' => 'Đang giao',
         'completed' => 'Hoàn tất',
         'cancelled' => 'Đã hủy',
@@ -119,3 +118,68 @@ function order_status_label($status)
 {
     return order_statuses()[$status] ?? $status;
 }
+
+// ===== 6. Quản trị =====
+
+// Đặt ở đầu mọi trang trong thư mục admin/
+function require_admin()
+{
+    require_login();
+    if (!is_admin()) {
+        http_response_code(403);
+        exit('Bạn không có quyền truy cập trang này.');
+    }
+}
+
+// ===== 7. Tải ảnh lên =====
+
+// Trả về đường dẫn ảnh đã lưu (ví dụ "uploads/3f2a....jpg"); ném ngoại lệ nếu tệp không hợp lệ
+function upload_image($file)
+{
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        throw new RuntimeException('Tải tệp lên thất bại (mã lỗi ' . $file['error'] . ').');
+    }
+    if ($file['size'] > 2 * 1024 * 1024) {
+        throw new RuntimeException('Ảnh không được lớn hơn 2 MB.');
+    }
+
+    // Xác định loại tệp bằng cách đọc nội dung, không tin phần mở rộng do người dùng đặt
+    $info = getimagesize($file['tmp_name']);
+    $extensions = ['image/jpeg' => 'jpg', 'image/png' => 'png', 'image/webp' => 'webp'];
+    if ($info === false || !isset($extensions[$info['mime']])) {
+        throw new RuntimeException('Chỉ chấp nhận ảnh JPG, PNG hoặc WebP.');
+    }
+
+    // Tự đặt tên mới, ngẫu nhiên, để không trùng và không dùng tên do người dùng gửi lên
+    $name = bin2hex(random_bytes(8)) . '.' . $extensions[$info['mime']];
+    if (!move_uploaded_file($file['tmp_name'], __DIR__ . '/../uploads/' . $name)) {
+        throw new RuntimeException('Không lưu được tệp. Kiểm tra quyền ghi của thư mục uploads.');
+    }
+    return 'uploads/' . $name;
+}
+
+// ===== 8. Chống giả mạo yêu cầu (CSRF) =====
+
+function csrf_token()
+{
+    if (empty($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+    }
+    return $_SESSION['csrf_token'];
+}
+
+// In ra ô ẩn chứa mã; đặt bên trong mọi form dùng method="post"
+function csrf_field()
+{
+    return '<input type="hidden" name="csrf_token" value="' . csrf_token() . '">';
+}
+
+function csrf_verify()
+{
+    $token = $_POST['csrf_token'] ?? '';
+    if (!is_string($token) || !hash_equals(csrf_token(), $token)) {
+        http_response_code(403);
+        exit('Yêu cầu không hợp lệ. Vui lòng quay lại, tải lại trang và thử lại.');
+    }
+}
+

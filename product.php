@@ -58,6 +58,7 @@ require __DIR__ . '/includes/header.php';
 
         <?php if ($product['stock'] > 0): ?>
             <form action="<?= url('cart-add.php') ?>" method="post" class="cart-actions">
+                <?= csrf_field() ?>
                 <input type="hidden" name="product_id" value="<?= $product['id'] ?>">
                 <input type="number" name="quantity" value="1" min="1" max="<?= $product['stock'] ?>">
                 <button type="submit" class="btn btn-accent">Thêm vào giỏ</button>
@@ -85,6 +86,7 @@ $relatedProducts = $stmtRelated->fetchAll();
             <p class="price"><?= format_price($relProduct['price']) ?></p>
             <a href="<?= url('product.php?id=' . $relProduct['id']) ?>" class="btn">Xem chi tiết</a>
             <form action="<?= url('cart-add.php') ?>" method="post" class="inline-form">
+                <?= csrf_field() ?>
                 <input type="hidden" name="product_id" value="<?= $relProduct['id'] ?>">
                 <button type="submit" class="btn btn-accent">Thêm vào giỏ</button>
             </form>

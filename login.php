@@ -46,6 +46,7 @@ require __DIR__ . '/includes/header.php';
 <?php endif; ?>
 
 <form action="<?= url('login.php') ?>" method="post" class="form">
+    <?= csrf_field() ?>
     <p>
         <label for="email">Email</label><br>
         <input type="email" id="email" name="email" value="<?= e($email) ?>" required>

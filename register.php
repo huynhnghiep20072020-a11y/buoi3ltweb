@@ -61,6 +61,7 @@ require __DIR__ . '/includes/header.php';
 <h2>Đăng ký tài khoản</h2>
 
 <form action="<?= url('register.php') ?>" method="post" class="form" id="register-form">
+    <?= csrf_field() ?>
     <p>
         <label for="fullname">Họ và tên</label><br>
         <input type="text" id="fullname" name="fullname" value="<?= e($fullname) ?>"
